@@ -1,0 +1,15 @@
+#Profile {
+    transition: all 150ms;
+    right: 10px;
+}
+
+nav {
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+}
+
+form {
+    width: 380px;
+    height: max-content;
+}
