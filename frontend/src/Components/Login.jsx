@@ -9,7 +9,7 @@ const Login = () => {
     const usernameRef = useRef();
     const passwordRef = useRef();
 
-    const { setName } = useContext(Context);
+    const { setName, name } = useContext(Context);
 
     function credentialLogin(e) {
         e.preventDefault();
