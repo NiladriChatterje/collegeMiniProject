@@ -1,10 +1,12 @@
-import { Button, FormLabel, Input } from '@chakra-ui/react';
-import React, { useContext, useEffect, useRef } from 'react'
+import { Button, Flex, FormLabel, Input } from '@chakra-ui/react';
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../App';
+import LoginModal from './LoginRegModal/LoginModal';
 
 
 const Login = () => {
+    const [loginRegToggle, setLoginRegToggle] = useState(true);
     const navigate = useNavigate();
     const usernameRef = useRef();
     const passwordRef = useRef();
@@ -33,8 +35,25 @@ const Login = () => {
 
     return (
         <>
+            <Flex
+                pos={'fixed'}
+                right={10}
+                top={5}
+                rowGap={25}
+                flexDir={'column'}
+            >
+                <Button onClick={() => setLoginRegToggle(true)} >
+                    Login
+                </Button >
+                <Button onClick={() => setLoginRegToggle(false)} >
+                    Register
+                </Button>
+            </Flex>
             <form onSubmit={(e) => credentialLogin(e)}>
-
+                {loginRegToggle ?
+                    <LoginModal passwordRef={passwordRef}
+                        usernameRef={usernameRef} /> :
+                    <h1>Hello</h1>}
             </form>
         </>
     )
