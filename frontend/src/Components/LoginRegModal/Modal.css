@@ -1,0 +1,79 @@
+#modal_container {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 3;
+    background-color: rgba(0, 0, 0, 0.703);
+}
+
+#modal {
+    width: 47%;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    height: min-content;
+}
+
+.create_account,
+.login {
+    width: 50%;
+}
+
+#modal_picture {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#mobile_button_view {
+    width: 100%;
+}
+
+#mobile_button_view>span {
+    display: none;
+}
+
+#mobile_button_view>button {
+    width: 100%;
+}
+
+@media all and (max-width:1000px) {
+    #modal {
+        width: 100%;
+        height: 550px;
+        bottom: 0;
+        left: 0;
+        transform: translate(0);
+    }
+
+    .create_account,
+    .login {
+        width: 100%;
+    }
+}
+
+@media all and (max-width:670px) {
+    #modal_picture {
+        display: none;
+    }
+
+    #mobile_button_view {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #mobile_button_view>span {
+        width: 60%;
+        margin: 25px 0 0 0;
+        height: 10px;
+        text-align: right;
+        display: block;
+    }
+
+    #mobile_button_view>button {
+        width: 40%;
+    }
+}

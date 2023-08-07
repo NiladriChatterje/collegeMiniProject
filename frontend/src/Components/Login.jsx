@@ -9,7 +9,7 @@ const Login = () => {
     const usernameRef = useRef();
     const passwordRef = useRef();
 
-    const { setName } = useContext(Context);
+    const { setName, name } = useContext(Context);
 
     function credentialLogin(e) {
         e.preventDefault();
@@ -34,14 +34,7 @@ const Login = () => {
     return (
         <>
             <form onSubmit={(e) => credentialLogin(e)}>
-                <FormLabel>Username:</FormLabel>
-                <Input type={'text'} ref={usernameRef} required />
-                <FormLabel>Password:</FormLabel>
-                <Input type={'password'} ref={passwordRef} required />
-                <Button type={'submit'} variant={'solid'} ml={'38%'}
-                    mt={10}
-                    bg={'teal.800'}
-                    color={'white'} >Submit</Button>
+
             </form>
         </>
     )
