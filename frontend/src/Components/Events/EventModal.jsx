@@ -1,7 +1,7 @@
-import { Box, Button, Flex, FormLabel, Input, Image } from '@chakra-ui/react'
+import { Box, Button, Flex, FormLabel, Input } from '@chakra-ui/react'
 import React, { useRef } from 'react'
 import { toast } from 'react-hot-toast';
-import ModalImg from '../../assets/ModalImg.jpg'
+import { ReactComponent as Add } from '../../assets/Add.svg'
 import { AiFillCloseCircle } from 'react-icons/ai'
 
 const EventModal = ({ setModalToggle, setEventArray, eventArray }) => {
@@ -9,9 +9,11 @@ const EventModal = ({ setModalToggle, setEventArray, eventArray }) => {
     const inputRef = useRef();
 
     function addEvent() {
-        setEventArray([...eventArray, inputRef.current.value]);
-        setModalToggle(false);
-        toast(inputRef.current.value + "event added");
+        if (inputRef.current.value) {
+            setEventArray([...eventArray, inputRef.current.value]);
+            setModalToggle(false);
+            toast(inputRef.current.value + " event added");
+        }
     }
 
     return (
@@ -24,9 +26,8 @@ const EventModal = ({ setModalToggle, setEventArray, eventArray }) => {
             opacity={7} justifyContent={'center'}
             alignItems={'center'}>
             <Flex
-                bgColor={'whiteAlpha.900'}
+                bgColor={'white'}
                 overflow={'clip'}
-                boxShadow={'0 0 20px -12px black'}
                 borderRadius={10}
                 flexDir={'column'}
                 position={'relative'}
@@ -34,21 +35,25 @@ const EventModal = ({ setModalToggle, setEventArray, eventArray }) => {
                 placeItems={'center'}
                 w={600}
                 h={500}>
+
                 <AiFillCloseCircle
                     onClick={() => setModalToggle(false)}
                     style={{ position: 'absolute', right: 5, top: 5 }} size={30}
                     cursor={'pointer'} />
 
-                <Image src={ModalImg} objectFit={'contain'} />
-                <Box w={'70%'} pos={'absolute'} zIndex={3} bg={'whiteAlpha.900'}
-                    boxShadow={'0 0 10px -5px black'}
-                    borderRadius={20} p={10} >
+                <Add />
+
+                <Box w={'50%'}
+                    pos={'absolute'}
+                    right={20}
+                    top={5}
+                    borderRadius={10} p={10}>
                     <FormLabel>Event Name : </FormLabel>
                     <Input type='text' ref={inputRef} required />
                 </Box>
                 <Button variant={'solid'} bgColor={'teal.600'} pos={'absolute'}
                     fontWeight={900} color={'white'}
-                    bottom={10} right={10}
+                    bottom={10} right={14}
                     onClick={addEvent}
                 >ADD</Button>
             </Flex>

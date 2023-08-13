@@ -1,6 +1,6 @@
 import './App.css';
 import Profile from './assets/profile.png';
-import ExpenseLogo from './assets/Expense_Tracker.jpg'
+import { ReactComponent as Piggy } from './assets/Piggy.svg';
 import { Flex, Image } from '@chakra-ui/react';
 import { Login, Expense, Event } from './Components/index';
 import { Route, Routes, useNavigate } from 'react-router-dom';
@@ -24,17 +24,26 @@ function App() {
         justifyContent={name === '' ? 'center' : 'flex-start'}
         alignItems={'center'}>
 
-        <Image src={Profile} alt={'Profile Picture'}
+        <Image
+          mb={5}
+          src={Profile}
+          alt={'Profile Picture'}
           boxShadow={'0 -8px 10px -8px black'}
           onClick={() => { navigate('/'); setName('') }}
-          w={250} h={250} borderRadius={'50%'} id={'Profile'} />
+          w={'80px'}
+          h={'80px'}
+          bg={'whiteAlpha.400'}
+          borderRadius={'50%'}
+          id={'Profile'} />
+
         <Routes>
           <Route path={'/'} element={<Login />} />
           <Route path={'/expense/:nameId'} element={<Expense />} />
           <Route path={'/events'} element={<Event />} />
         </Routes>
-        <Image src={ExpenseLogo} alt='logo' w={40}
-          pos={'fixed'} left={0} bottom={10} filter={'drop-shadow(0 0 5px black)'} />
+
+        <Piggy id='Piggy' />
+
       </Flex>
     </Context.Provider>
   )

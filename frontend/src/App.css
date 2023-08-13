@@ -1,6 +1,13 @@
 #Profile {
     transition: all 150ms;
     right: 10px;
+    position: fixed;
+}
+
+#loginBackground {
+    transform: scale(1);
+    position: fixed;
+    z-index: -2;
 }
 
 nav {
@@ -15,6 +22,17 @@ nav {
     display: flex;
     padding: 5px 15px;
     justify-content: space-between;
+}
+
+#deleteIcons {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#deleteIcons:hover {
+    color: rgb(156, 15, 15);
 }
 
 ::-webkit-scrollbar {
@@ -41,9 +59,24 @@ nav {
 form {
     padding: 25px;
     border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.882);
     width: 380px;
     height: max-content;
     box-shadow: 0 20px 20px -12px black;
+}
+
+#Piggy {
+    position: fixed;
+    width: 25%;
+    height: 25%;
+    left: 0px;
+    bottom: 5px;
+}
+
+#NotFound {
+    transform: scale(0.5);
+    position: fixed;
+    top: -5%
 }
 
 @media all and (max-width: 1200px) {
