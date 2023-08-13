@@ -24,7 +24,9 @@ function App() {
         justifyContent={name === '' ? 'center' : 'flex-start'}
         alignItems={'center'}>
 
-        <Image src={Profile} alt={'Profile Picture'} onClick={() => { navigate('/'); setName('') }}
+        <Image src={Profile} alt={'Profile Picture'}
+          boxShadow={'0 -8px 10px -8px black'}
+          onClick={() => { navigate('/'); setName('') }}
           w={250} h={250} borderRadius={'50%'} id={'Profile'} />
         <Routes>
           <Route path={'/'} element={<Login />} />
@@ -32,7 +34,7 @@ function App() {
           <Route path={'/events'} element={<Event />} />
         </Routes>
         <Image src={ExpenseLogo} alt='logo' w={40}
-          pos={'fixed'} left={0} bottom={10} />
+          pos={'fixed'} left={0} bottom={10} filter={'drop-shadow(0 0 5px black)'} />
       </Flex>
     </Context.Provider>
   )

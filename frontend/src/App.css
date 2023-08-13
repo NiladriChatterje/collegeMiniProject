@@ -39,8 +39,11 @@ nav {
 }
 
 form {
+    padding: 25px;
+    border-radius: 15px;
     width: 380px;
     height: max-content;
+    box-shadow: 0 20px 20px -12px black;
 }
 
 @media all and (max-width: 1200px) {
