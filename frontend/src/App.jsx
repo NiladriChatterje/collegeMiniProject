@@ -3,7 +3,7 @@ import Profile from './assets/profile.png';
 import { ReactComponent as Piggy } from './assets/Piggy.svg';
 import { Flex, Image } from '@chakra-ui/react';
 import { Login, Expense, Event } from './Components/index';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { createContext, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 
@@ -38,6 +38,7 @@ function App() {
 
         <Routes>
           <Route path={'/'} element={<Login />} />
+          <Route path={'/:abc'} element={<Navigate to={'/'} />} />
           <Route path={'/expense/:nameId'} element={<Expense />} />
           <Route path={'/events'} element={<Event />} />
         </Routes>

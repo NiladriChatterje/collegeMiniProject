@@ -31,7 +31,11 @@ const Cards = ({ name, eventArray, setEventArray }) => {
                 id='deleteIcons'
                 onClick={deleteEventFromArray} />}
             {name}
-            <Box w={'80%'} pos={'absolute'} bottom={5} borderRadius={10} h={2} bg={'blue.700'} />
+            <Box w={'80%'} pos={'absolute'}
+                bottom={5}
+                left={1}
+                borderRadius={10}
+                h={2} bg={'blue.700'} />
         </Flex>
     )
 }

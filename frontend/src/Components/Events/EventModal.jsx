@@ -1,5 +1,6 @@
 import { Box, Button, Flex, FormLabel, Input } from '@chakra-ui/react'
 import React, { useRef } from 'react'
+import ModalWrapper from '../ModalWrapper';
 import { toast } from 'react-hot-toast';
 import { ReactComponent as Add } from '../../assets/Add.svg'
 import { AiFillCloseCircle } from 'react-icons/ai'
@@ -53,7 +54,7 @@ const EventModal = ({ setModalToggle, setEventArray, eventArray }) => {
                 </Box>
                 <Button variant={'solid'} bgColor={'teal.600'} pos={'absolute'}
                     fontWeight={900} color={'white'}
-                    bottom={10} right={14}
+                    bottom={5} right={14}
                     onClick={addEvent}
                 >ADD</Button>
             </Flex>

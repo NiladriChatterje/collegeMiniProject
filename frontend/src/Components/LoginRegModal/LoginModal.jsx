@@ -1,24 +1,47 @@
-import { Button, FormLabel, Input } from '@chakra-ui/react'
-import React, { useContext, useRef } from 'react';
+import { Button, Flex, FormLabel, Input } from '@chakra-ui/react'
+import ModalWrapper from '../ModalWrapper'
+import React, { useContext, useRef, useState } from 'react';
 import { ReactComponent as ExpenseLogo } from '../../assets/Background.svg'
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../../App';
+import { toast } from 'react-hot-toast';
+import axios from 'axios'
 
 const LoginModal = () => {
-
+    const [Validate, setValidate] = useState(false);
+    const [OTP, setOTP] = useState(-1);
     const navigate = useNavigate();
+    const ValidateRef = useRef();
     const usernameRef = useRef();
     const passwordRef = useRef();
 
     const { setName } = useContext(Context);
 
-    function credentialLogin(e) {
+    async function credentialLogin(e) {
         e.preventDefault();
-        //DB work
+        let OTP = Math.trunc((Math.random() * 1000000));
+
+        setValidate(true);
+        await axios.post('http://localhost:5000/send_email', {
+            recipient: usernameRef.current.value,
+            confirmation: OTP
+        });
+        toast('OTP sent')
+        setOTP(OTP);
         setName(usernameRef.current.value)
-        navigate('/events');
     }
 
+
+    function validateModal() {
+        if (OTP === parseInt(ValidateRef.current.value)) {
+            setValidate(false);
+            toast('Successfully OTP verified');
+            navigate('/events');
+        }
+        else {
+            toast('wrong credential')
+        }
+    }
 
     React.useEffect(() => {
         const profilePic = document.querySelector('#Profile');
@@ -42,7 +65,7 @@ const LoginModal = () => {
             <ExpenseLogo id='loginBackground' />
             <form onSubmit={(e) => credentialLogin(e)}>
                 <FormLabel>Username:</FormLabel>
-                <Input type={'text'} ref={usernameRef} required />
+                <Input type={'email'} ref={usernameRef} required />
                 <FormLabel>Password:</FormLabel>
                 <Input type={'password'} ref={passwordRef} required />
                 <Button type={'submit'} variant={'solid'} ml={'38%'}
@@ -50,6 +73,19 @@ const LoginModal = () => {
                     bg={'teal.800'}
                     color={'white'} >Submit</Button>
             </form>
+            {Validate &&
+                <ModalWrapper>
+                    <FormLabel>OTP :</FormLabel>
+                    <Input type='number' ref={ValidateRef} required />
+                    <Button
+                        variant={'solid'}
+                        bg={'teal.600'}
+                        color={'white'}
+                        onClick={validateModal}>
+                        CHECK
+                    </Button>
+                </ModalWrapper>
+            }
         </>
     )
 }

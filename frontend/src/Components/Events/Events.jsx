@@ -1,4 +1,4 @@
-import { Text, Box, Divider, Flex, Image } from '@chakra-ui/react'
+import { Text, Box, Divider, Flex } from '@chakra-ui/react'
 import React, { useContext, useEffect, useState } from 'react'
 import { Context } from '../../App'
 import { AiOutlinePlusSquare } from 'react-icons/ai';
@@ -19,7 +19,9 @@ const Events = () => {
 
     if (name)
         return (
-            <Box w={'70%'} pos={'relative'} h={'100vh'}>
+            <Box w={'70%'}
+                pos={'relative'}
+                h={'100vh'}>
                 <nav>
                     <Text>{name}</Text>
                     <AiOutlinePlusSquare cursor={'pointer'} size={30}
@@ -32,6 +34,7 @@ const Events = () => {
 
                 <Flex
                     justifyContent={'center'}
+                    w={'full'}
                     pos={'absolute'}
                     flexWrap={'wrap'}
                     h={'80%'}
