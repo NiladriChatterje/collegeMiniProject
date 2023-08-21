@@ -73,7 +73,7 @@ const Events = () => {
                         pos={'absolute'}
                         right={0}
                         flexWrap={'wrap'}
-                        h={'80%'}
+                        h={['55%', '80%']}
                         columnGap={5}
                         mt={[10, 0]}
                         overflow={'clip auto'}>
