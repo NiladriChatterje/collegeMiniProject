@@ -35,7 +35,11 @@ const Cards = ({ name, eventArray, setEventArray }) => {
                 onClick={deleteEventFromArray} />}
             {name}
             <Box w={'80%'} pos={'absolute'}
+<<<<<<< HEAD
                 bottom={0}
+=======
+                bottom={5}
+>>>>>>> 6d2751775e90d59b640e4a8096b86811f8d98124
                 left={1}
                 borderRadius={10}
                 h={2} bg={'blue.700'} />
