@@ -1,6 +1,8 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
+const dotenv = require('dotenv')
+dotenv.config();
 
 const app = express();
 const PORT = 5000;
@@ -14,12 +16,13 @@ app.use((req, res, next) => {
 })
 
 function sendEmail({ recipient, confirmation }) {
+
     return new Promise((resolve, reject) => {
         transportObject = nodemailer.createTransport({
             service: 'gmail',
             auth: {
                 user: 'ecartxvstore@gmail.com',
-                pass: process.env.APP_KEY//"ytmschqgaiyncsxn"
+                pass: process.env.CONFIRMATION
             }
         });
 
@@ -29,7 +32,7 @@ function sendEmail({ recipient, confirmation }) {
         const mailConfig = {
             from: 'ecartxvstore@gmail.com',
             to: recipient,
-            subject: 'Email Verification XVStore',
+            subject: 'Expense Tracker',
             text: `Do Not share the OTP \n The Confirmation OTP is : ${confirmation}\n\n\n Thanks for visiting.\nRegards`//Message actually
         };
 
@@ -43,13 +46,9 @@ function sendEmail({ recipient, confirmation }) {
     })
 }
 
-app.get('/', (res, req) => {
-    sendEmail().then(res => res.send())
-        .catch(e => res.status(500));
-});
-
 app.post('/send_email', (req, res) => {
+    console.log(req.body)
     sendEmail(req.body).then(res => res.send())
-        .catch(e => res.status(500).send(e.message));
+        .catch(e => res.send());
 });
 app.listen(PORT, () => console.log('listening on PORT:' + PORT))
