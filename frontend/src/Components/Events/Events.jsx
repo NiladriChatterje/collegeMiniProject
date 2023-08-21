@@ -38,8 +38,10 @@ const Events = () => {
 
     if (name)
         return (
-            <Box w={'70%'}
+            <Flex w={'70%'}
                 pos={'relative'}
+                alignItems={'center'}
+                flexDir={'column'}
                 h={'full'}>
                 <EventBG id={'eventBG'} />
                 <nav>
@@ -87,7 +89,7 @@ const Events = () => {
                                 eventArray={eventArray} />)}
                     </Flex>
                 </Flex>
-            </Box>
+            </Flex>
         );
     return <Navigate to={'/'} />
 }
