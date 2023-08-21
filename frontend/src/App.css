@@ -110,10 +110,6 @@ form {
     #eventCard {
         flex-direction: column;
     }
-
-    #eventCard div {
-        position: relative;
-    }
 }
 
 @media all and (max-width:800px) {

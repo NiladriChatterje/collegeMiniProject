@@ -55,27 +55,25 @@ const Events = () => {
                 <Flex
                     id={'eventCard'}
                     maxH={'100vh'}
-                    pos={'relative'}
                     h={'full'}
-                    justifyContent={'space-between'}
+                    justifyContent={['flex-start', 'space-around']}
                     w={'full'}>
                     <Flex
                         alignItems={['center', 'flex-start']}
                         flexDir={'column'}
                         w={['full', '30%']}>
                         <Box id={'Chart'} minW={320} />
-                        <Box w={'full'} h={50} borderRadius={10} bg={'blue.900'} />
+                        <Box w={'full'} h={50}
+                            borderRadius={10} bg={'blue.900'} />
                     </Flex>
                     <Flex
                         justifyContent={'center'}
                         alignItems={['center', 'flex-start']}
                         w={['full', '70%']}
-                        pos={'absolute'}
-                        right={0}
                         flexWrap={'wrap'}
-                        h={['55%', '80%']}
+                        h={['50%', '80%']}
+                        mt={5}
                         columnGap={5}
-                        mt={[10, 0]}
                         overflow={'clip auto'}>
 
                         {eventArray.length === 0 ?
