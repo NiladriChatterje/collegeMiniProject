@@ -63,7 +63,7 @@ const Events = () => {
                     <Flex
                         alignItems={['center', 'flex-start']}
                         flexDir={'column'}
-                        w={['full', '30%']}>
+                        w={['full', 'full', '30%']}>
                         <Box id={'Chart'} minW={320} />
                         <Box w={'full'} h={50}
                             borderRadius={10} bg={'blue.900'} />
@@ -71,7 +71,7 @@ const Events = () => {
                     <Flex
                         justifyContent={'center'}
                         alignItems={['center', 'flex-start']}
-                        w={['full', '70%']}
+                        w={['full', 'full', '70%']}
                         flexWrap={'wrap'}
                         h={['50%', '80%']}
                         mt={5}
