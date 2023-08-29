@@ -7,6 +7,7 @@ const ModalWrapper = ({ children }) => {
         <Flex w={'full'}
             pos={'fixed'}
             left={0}
+            top={0}
             zIndex={1}
             h={'full'}
             backdropFilter={'blur(5px)'}

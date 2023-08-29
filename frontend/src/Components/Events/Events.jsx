@@ -24,10 +24,8 @@ const Events = () => {
             chart: {
                 type: 'pie'
             },
-            series: [44, 55, 41, 17, 15],
-            chartOptions: {
-                labels: ['Apple', 'Mango', 'Orange', 'Watermelon']
-            }
+            series: [44, 45, 55, 5, 55, 41, 17, 15],
+
         };
 
         const chart = new ApexCharts(document.querySelector("#Chart"), options);
@@ -43,6 +41,7 @@ const Events = () => {
                 alignItems={'center'}
                 flexDir={'column'}
                 h={'full'}>
+
                 <EventBG id={'eventBG'} />
                 <nav>
                     <Text>{name}</Text>
@@ -58,22 +57,34 @@ const Events = () => {
                     id={'eventCard'}
                     maxH={'100vh'}
                     h={'full'}
-                    justifyContent={['flex-start', 'space-around']}
+                    flexDir={['column', 'column', 'column', 'row']}
+                    justifyContent={['space-around', 'center', 'space-between', 'space-around']}
                     w={'full'}>
                     <Flex
+                        gap={5}
                         alignItems={['center', 'flex-start']}
                         flexDir={'column'}
-                        w={['full', 'full', '30%']}>
+                        w={['full', 'full', 'full', '30%']}>
                         <Box id={'Chart'} minW={320} />
-                        <Box w={'full'} h={50}
+                        <Box w={'full'} h={30}
                             borderRadius={10} bg={'blue.900'} />
+
+                        <Box borderRadius={10}
+                            p={5}
+                            boxShadow={'0 0 25px -18px black'}
+                            bg={'whiteAlpha.900'}
+                            textAlign={'center'}
+                            color={'white'}
+                            bgImg={'linear-gradient(to right,#37d5d6,#36096D)'}
+                            w={'full'} h={['max-content', 'max-content', 'max-content', 60]}>
+                            Total Expenses : $4500
+                        </Box>
                     </Flex>
                     <Flex
                         justifyContent={'center'}
-                        alignItems={['center', 'flex-start']}
-                        w={['full', 'full', '70%']}
+                        w={['full', 'full', 'full', '70%']}
                         flexWrap={'wrap'}
-                        h={['50%', '80%']}
+                        h={['55%', '50%', 700]}
                         mt={5}
                         columnGap={5}
                         overflow={'clip auto'}>

@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Box, Flex, Text, useMediaQuery } from '@chakra-ui/react'
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiFillDelete } from 'react-icons/ai'
@@ -6,6 +6,7 @@ import { AiFillDelete } from 'react-icons/ai'
 const Cards = ({ name, eventArray, setEventArray }) => {
     const navigate = useNavigate();
     const [deleteVisible, setDeleteVisible] = useState(false);
+    const [val] = useMediaQuery('(max-width:1200px)');
 
     function deleteEventFromArray(e) {
         e.stopPropagation();
@@ -15,8 +16,6 @@ const Cards = ({ name, eventArray, setEventArray }) => {
 
     return (
         <Flex mt={3}
-            onTouchStart={() => setDeleteVisible(true)}
-            onTouchEnd={() => setDeleteVisible(false)}
             onMouseEnter={() => setDeleteVisible(true)}
             onMouseLeave={() => setDeleteVisible(false)}
             onClick={() => navigate(`/expense/${name}`)}
@@ -30,7 +29,7 @@ const Cards = ({ name, eventArray, setEventArray }) => {
             w={200} h={250} bgColor={'gray.100'}
             borderRadius={10} cursor={'pointer'}>
 
-            {deleteVisible && <AiFillDelete size={50}
+            {(deleteVisible || val) && <AiFillDelete size={50}
                 id='deleteIcons'
                 onClick={deleteEventFromArray} />}
             {name}
