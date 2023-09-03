@@ -11,11 +11,14 @@ import {
     Divider,
     Flex,
     Text,
+    Image,
 } from '@chakra-ui/react'
+import ExpenseBG from '../../assets/ExpenseBG.svg'
 import { Context } from '../../App';
 import { toast } from 'react-hot-toast'
 import { Navigate, useParams } from 'react-router-dom';
 import { AiFillPlusCircle } from 'react-icons/ai';
+import { MdDeleteForever } from 'react-icons/md'
 
 const Expense = () => {
     const { name } = useContext(Context);
@@ -55,7 +58,7 @@ const Expense = () => {
         {
             timestamp: new Date().toLocaleString(),
 
-            description: 'China town, 32A street',
+            description: 'Hatibagan,Aminia',
             amount: 650
         },
         {
@@ -64,7 +67,7 @@ const Expense = () => {
             amount: 650
         },
         {
-            timestamp: new Date().toLocaleDateString(),
+            timestamp: new Date().toLocaleTimeString(),
 
             description: 'China town, 32A street',
             amount: 650
@@ -72,25 +75,30 @@ const Expense = () => {
 
 
         {
-            timestamp: new Date().toDateString(),
+            timestamp: new Date().toLocaleString(),
 
-            description: 'China town, 32A street',
+            description: 'Rajarhat Chowmatha, 99',
             amount: 650
         },
 
 
     ]);
-
     const { nameId } = useParams();
-
 
     useEffect(() => {
         toast(nameId);
     }, []);
 
+    async function deleteRecord(e, index) {
+        setEventDetailsArray(eventDetailsArray.filter((_, i) => i !== index))
+        console.log()
+    }
+
     if (name && nameId)
         return (
             <>
+                <Image src={ExpenseBG}
+                    pos={'fixed'} zIndex={-2} opacity={0.3} transform={['scale(1)', 'scale(1)', 'scale(0.5)']} />
                 <Text
                     pos={'absolute'}
                     left={10} top={5}
@@ -99,7 +107,7 @@ const Expense = () => {
                 <Text
                     w={['max-content', '80%']}
                     p={1}
-                    mt={2}
+                    mt={6}
                     fontWeight={700}
                     fontSize={20}
                     borderRadius={10}
@@ -117,13 +125,15 @@ const Expense = () => {
                 >
                     <Table
                         fontSize={12}
-                        w={'70%'}
+                        w={['100%', '100%', '70%']}
                         mt={5}>
                         <Thead>
                             <Tr
-                                onMouseEnter={''}
+                                w={'full'}
+                                bgColor={'whiteAlpha.900'}
                                 borderRadius={10}
                             >
+                                <Td>SL No.</Td>
                                 <Th>TimeStamp</Th>
                                 <Th>Description</Th>
                                 <Th>Amount</Th>
@@ -134,13 +144,22 @@ const Expense = () => {
                             {eventDetailsArray?.map(
                                 (item, i) => (
                                     <Tr
+                                        className='expenseRow'
                                         key={i}
                                         mt={15}
                                         borderRadius={10}
                                     >
-                                        <Td>{item?.timestamp}</Td>                                        <Td>{item?.description.length < 25 ?
+                                        <Td>{i + 1}</Td>
+                                        <Td>{item?.timestamp}</Td>
+                                        <Td>{item?.description.length < 25 ?
                                             item?.description : item?.description.slice(0, 25)}</Td>
-                                        <Td>{item?.amount} { }</Td>
+                                        <Td display={'flex'}
+                                            justifyContent={'space-between'}
+                                        >
+                                            <Text>{item?.amount}</Text>
+                                            <MdDeleteForever className='delicon'
+                                                onClick={(e) => deleteRecord(e, i)} />
+                                        </Td>
                                     </Tr>
                                 )
                             )
@@ -156,8 +175,6 @@ const Expense = () => {
                             />
                         </TableCaption>
                     </Table>
-
-
                 </Flex>
             </>
         );

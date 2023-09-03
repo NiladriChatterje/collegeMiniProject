@@ -31,7 +31,7 @@ const Events = () => {
         const chart = new ApexCharts(document.querySelector("#Chart"), options);
         chart.render();
 
-        return () => chart.destroy();
+
     }, []);
 
     if (name)

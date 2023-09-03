@@ -4,20 +4,22 @@ import BG from '../assets/BG.svg'
 import BG2 from '../assets/BG2.svg'
 import { Context } from '../App';
 import { Button, Flex, Image } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [toggleLoginReg, setToggleLoginReg] = React.useState(true);
-    const { setName } = React.useContext(Context);
+    const { setName, name } = React.useContext(Context);
+    const [validate, setValidate] = React.useState(false);
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         const profilePic = document.querySelector('#Profile');
-        const loginBg = document.querySelector('#loginBackground')
         profilePic.style.marginTop = '4%'
-        loginBg.style.marginTop = '5%'
         profilePic.style.width = '200px';
         profilePic.style.height = profilePic.style.width;
         profilePic.style.position = 'static';
-
+        if (name)
+            navigate('/events');
         return () => {
             profilePic.style.position = 'fixed';
             profilePic.style.width = '50px';
@@ -31,8 +33,9 @@ const Login = () => {
         <>
             <Image src={window.innerWidth > 1200 ? BG : BG2} id={'BG'} />
             {toggleLoginReg ?
-                <LoginModal setName={setName} /> :
-                <RegisterModal setToggleLoginReg={setToggleLoginReg} />}
+                <LoginModal setName={setName} validate={validate} setValidate={setValidate} /> :
+                <RegisterModal setToggleLoginReg={setToggleLoginReg}
+                    validate={validate} setValidate={setValidate} />}
             <Flex
                 w={'full'}
                 mt={10}
@@ -55,6 +58,6 @@ const Login = () => {
             </Flex>
         </>
     )
-}
+};
 
 export default Login;

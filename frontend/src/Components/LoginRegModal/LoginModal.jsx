@@ -1,6 +1,6 @@
-import { Button, Flex, FormLabel, Input } from '@chakra-ui/react'
+import { Button, Flex, FormLabel, Input, Image } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react';
-import { ReactComponent as ExpenseLogo } from '../../assets/Background.svg'
+import ExpenseLogo from '../../assets/Background.svg'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios'
@@ -47,7 +47,10 @@ const LoginModal = ({ setName }) => {
 
     return (
         <>
-            <ExpenseLogo id='loginBackground' />
+            <Image src={ExpenseLogo}
+                objectFit={'contain'} transform={['scale(1.20)', 'scale(1.2)', 'scale(0.6)']}
+                pos={'fixed'} zIndex={-5}
+            />
             <form onSubmit={(e) => credentialLogin(e)}>
                 <FormLabel>Username:</FormLabel>
                 <Input type={'email'} ref={usernameRef} />

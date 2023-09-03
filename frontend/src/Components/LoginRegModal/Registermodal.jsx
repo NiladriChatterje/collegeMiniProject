@@ -1,9 +1,9 @@
-import { Button, FormLabel, Input } from '@chakra-ui/react'
-import { ReactComponent as Register } from '../../assets/Register.svg'
+import { Button, FormLabel, Image, Input } from '@chakra-ui/react'
+import Register from '../../assets/Register.svg'
 import { toast } from 'react-hot-toast'
 import React, { useRef } from 'react'
 
-const Registermodal = ({ setToggleLoginReg }) => {
+const Registermodal = ({ setToggleLoginReg, validate, setValidate }) => {
     const [confirmation, setConfirmation] = React.useState(false);
     const nameRef = useRef();
     const emailRef = useRef();
@@ -22,7 +22,9 @@ const Registermodal = ({ setToggleLoginReg }) => {
 
     return (
         <>
-            <Register id={'loginBackground'} />
+            <Image src={Register}
+                transform={['scale(1.20)', 'scale(1.2)', 'scale(0.6)']}
+                pos={'fixed'} zIndex={-5} />
             <form onSubmit={registrationUser}>
                 <FormLabel>Name : </FormLabel>
                 <Input type='text' ref={nameRef} />
@@ -32,7 +34,7 @@ const Registermodal = ({ setToggleLoginReg }) => {
                 <Input type='tel' ref={telRef} maxLength={10} minLength={10} />
                 <FormLabel>password : </FormLabel>
                 <Input type='password' ref={passwordRef} />
-                <Button type='submit' isLoading={confirmation}
+                <Button type='submit' isLoading={confirmation} mt={5}
                     bg={'teal.700'} color={'white'} >Register</Button>
             </form>
         </>
