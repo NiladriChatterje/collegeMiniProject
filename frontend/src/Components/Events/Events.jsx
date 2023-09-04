@@ -84,7 +84,7 @@ const Events = () => {
                         justifyContent={'center'}
                         w={['full', 'full', 'full', '70%']}
                         flexWrap={'wrap'}
-                        h={['55%', '50%', 700]}
+                        h={['45%', '50%', 700]}
                         mt={5}
                         paddingBottom=[20,5]
                         columnGap={5}
