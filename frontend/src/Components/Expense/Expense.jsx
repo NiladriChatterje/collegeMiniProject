@@ -133,7 +133,7 @@ const Expense = () => {
                                 bgColor={'whiteAlpha.900'}
                                 borderRadius={10}
                             >
-                                <Td>SL No.</Td>
+                         
                                 <Th>TimeStamp</Th>
                                 <Th>Description</Th>
                                 <Th>Amount</Th>
@@ -149,7 +149,7 @@ const Expense = () => {
                                         mt={15}
                                         borderRadius={10}
                                     >
-                                        <Td>{i + 1}</Td>
+                           
                                         <Td>{item?.timestamp}</Td>
                                         <Td>{item?.description.length < 25 ?
                                             item?.description : item?.description.slice(0, 25)}</Td>
