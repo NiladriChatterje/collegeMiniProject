@@ -19,9 +19,11 @@ import { toast } from 'react-hot-toast'
 import { Navigate, useParams } from 'react-router-dom';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import { MdDeleteForever } from 'react-icons/md'
+import RecordAdderModal from './RecordAdderModal';
 
 const Expense = () => {
     const { name } = useContext(Context);
+    const [recordAdder, setRecordAdder] = useState(() => true)
     const [eventDetailsArray, setEventDetailsArray] = useState([
         {
             timestamp: new Date().toLocaleString(),
@@ -97,6 +99,7 @@ const Expense = () => {
     if (name && nameId)
         return (
             <>
+                {recordAdder && <RecordAdderModal setRecordAdder={setRecordAdder} />}
                 <Image src={ExpenseBG}
                     pos={'fixed'} zIndex={-2} opacity={0.2} transform={['scale(1)', 'scale(1)', 'scale(0.5)']} />
                 <Text
@@ -170,7 +173,7 @@ const Expense = () => {
                                 size={45}
                                 style={{ marginBottom: 25 }}
                                 cursor={'pointer'}
-                                onClick={''}
+                                onClick={() => setRecordAdder(true)}
                             />
                         </TableCaption>
                     </Table>
