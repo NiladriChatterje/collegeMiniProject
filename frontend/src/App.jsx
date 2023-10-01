@@ -17,7 +17,7 @@ function App() {
     <Context.Provider value={{ name, setName }} >
       <Toaster />
       <Flex
-        overflow={'clip'}
+        overflow={'clip auto'}
         w={'full'}
         flexDir={'column'}
         h={'100vh'}

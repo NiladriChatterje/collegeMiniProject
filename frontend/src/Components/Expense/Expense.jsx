@@ -98,7 +98,7 @@ const Expense = () => {
         return (
             <>
                 <Image src={ExpenseBG}
-                    pos={'fixed'} zIndex={-2} opacity={0.3} transform={['scale(1)', 'scale(1)', 'scale(0.5)']} />
+                    pos={'fixed'} zIndex={-2} opacity={0.2} transform={['scale(1)', 'scale(1)', 'scale(0.5)']} />
                 <Text
                     pos={'absolute'}
                     left={10} top={5}
@@ -108,6 +108,7 @@ const Expense = () => {
                     w={['max-content', '80%']}
                     p={1}
                     mt={6}
+                    bg={'blue.100'}
                     fontWeight={700}
                     fontSize={20}
                     borderRadius={10}
@@ -133,7 +134,6 @@ const Expense = () => {
                                 bgColor={'whiteAlpha.900'}
                                 borderRadius={10}
                             >
-                                <Td>SL No.</Td>
                                 <Th>TimeStamp</Th>
                                 <Th>Description</Th>
                                 <Th>Amount</Th>
@@ -149,7 +149,6 @@ const Expense = () => {
                                         mt={15}
                                         borderRadius={10}
                                     >
-                                        <Td>{i + 1}</Td>
                                         <Td>{item?.timestamp}</Td>
                                         <Td>{item?.description.length < 25 ?
                                             item?.description : item?.description.slice(0, 25)}</Td>

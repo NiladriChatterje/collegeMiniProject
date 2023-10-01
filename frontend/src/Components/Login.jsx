@@ -43,17 +43,23 @@ const Login = () => {
                 justifyContent={'center'}
                 h={'max-content'}>
                 <Button
-                    w={10} h={10}
+                    fontWeight={900}
+                    color={'white'}
+                    p={5}
                     mr={5}
-                    borderRadius={'50%'}
                     onClick={() => setToggleLoginReg(true)}
-                    bg={toggleLoginReg ? 'teal.900' : 'gray.300'} />
+                    bg={toggleLoginReg ? 'teal.900' : 'gray.300'}>
+                    Sign In
+                </Button>
 
                 <Button
-                    w={10} h={10}
-                    borderRadius={'50%'}
+                    fontWeight={900}
+                    color={'white'}
+                    p={5}
                     onClick={() => setToggleLoginReg(false)}
-                    bg={toggleLoginReg ? 'gray.300' : 'teal.900'} />
+                    bg={toggleLoginReg ? 'gray.300' : 'teal.900'}>
+                    REGISTER
+                </Button>
 
             </Flex>
         </>

@@ -1,8 +1,8 @@
 import { Box, Flex, Text, useMediaQuery } from '@chakra-ui/react'
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import EventBG3D from '../Splines/EventBG3D'
 import { AiFillDelete } from 'react-icons/ai'
-import CardBG from '../../assets/circleCardBG.svg'
 
 const Cards = ({ name, eventArray, setEventArray }) => {
     const navigate = useNavigate();
@@ -23,23 +23,19 @@ const Cards = ({ name, eventArray, setEventArray }) => {
             fontWeight={900}
             pos={'relative'}
             id={'card-event'}
-            bgImg={'url("../../assets/circleCardBG.svg")'}
+            backdropFilter={'blur(5px)'}
             textAlign={'center'}
+            overflow={'clip'}
             display={'inline-block'}
             justifyContent={'center'}
             alignItems={'center'}
             w={200} h={250}
             borderRadius={10} cursor={'pointer'}>
-
+            <EventBG3D />
             {(deleteVisible || val) && <AiFillDelete size={50}
                 id='deleteIcons'
                 onClick={deleteEventFromArray} />}
             {name}
-            <Box w={'80%'} pos={'absolute'}
-                bottom={0}
-                left={1}
-                borderRadius={10}
-                h={2} bg={'blue.700'} />
         </Flex>
     )
 }

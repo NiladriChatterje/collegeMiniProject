@@ -9,7 +9,6 @@ import { ReactComponent as NotFound } from '../../assets/NotFound.svg'
 import EventModal from './EventModal';
 import { Navigate } from 'react-router-dom'
 
-
 const Events = () => {
     const [eventArray, setEventArray] = useState(() => JSON.parse(localStorage.getItem('events')) || []);
     const [modalToggle, setModalToggle] = useState(() => false)
@@ -19,7 +18,36 @@ const Events = () => {
         localStorage.setItem('events', JSON.stringify(eventArray));
     }, [eventArray]);
 
-    useEffect(() => {
+    function renderLineChart() {
+        var options = {
+            series: [{
+                name: 'series1',
+                data: [31, 40, 28, 109]
+            }],
+            chart: {
+                height: 350,
+                type: 'area'
+            },
+            dataLabels: {
+                enabled: true
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'datetime',
+                categories: ["2018-09-19T01:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z"]
+            },
+            tooltip: {
+                x: {
+                    format: 'dd/MM/yy'
+                },
+            },
+        };
+        var chart = new ApexCharts(document.querySelector("#LineChart"), options);
+        chart.render();
+    }
+    function renderPieChart() {
         const options = {
             chart: {
                 type: 'pie'
@@ -28,17 +56,22 @@ const Events = () => {
 
         };
 
-        const chart = new ApexCharts(document.querySelector("#Chart"), options);
+        const chart = new ApexCharts(document.querySelector("#PieChart"), options);
         chart.render();
+    }
 
+    useEffect(() => {
+        renderLineChart();
+        renderPieChart();
 
     }, []);
 
     if (name)
         return (
-            <Flex w={'70%'}
+            <Flex w={['90%', '90%', '70%']}
                 pos={'relative'}
                 alignItems={'center'}
+                justifyContent={['flex-start', 'flex-start', 'center']}
                 flexDir={'column'}
                 h={'full'}>
 
@@ -48,26 +81,31 @@ const Events = () => {
                     <AiOutlinePlusSquare cursor={'pointer'} size={30}
                         onClick={() => setModalToggle(true)} />
                 </nav>
+                <Divider mt={90} />
                 {modalToggle && <EventModal setModalToggle={setModalToggle}
                     setEventArray={setEventArray} eventArray={eventArray} />}
 
 
-                <Divider mt={100} />
                 <Flex
                     id={'eventCard'}
+                    overflow={['clip']}
                     maxH={'100vh'}
-                    h={'full'}
-                    flexDir={['column', 'column', 'column', 'row']}
+                    h={['90vh', 'full']}
+                    flexDir={['column', 'column', 'row']}
+                    alignItems={['center', 'center', 'flex-start']}
                     justifyContent={['space-around', 'center', 'space-between', 'space-around']}
                     w={'full'}>
                     <Flex
                         gap={5}
-                        alignItems={['center', 'flex-start']}
+                        p={'2px 0 10px 0'}
+                        overflow={'clip auto'}
+                        maxH={'88vh'}
+                        pos={['fixed', 'fixed', 'static']}
                         flexDir={'column'}
-                        w={['full', 'full', 'full', '30%']}>
-                        <Box id={'Chart'} minW={320} />
-                        <Box w={'full'} h={30}
-                            borderRadius={10} bg={'blue.900'} />
+                        alignItems={['center', 'center', 'flex-start']}
+                        w={['85%', '80%', '35%']}>
+                        <Box id={'LineChart'} className='charts' />
+                        <Box id={'PieChart'} className='charts' />
 
                         <Box borderRadius={10}
                             p={5}
@@ -81,13 +119,18 @@ const Events = () => {
                         </Box>
                     </Flex>
                     <Flex
+                        backdropFilter={['blur(10px)', 'blur(10px)', 'blur(0px)']}
+                        borderRadius={10}
+                        pt={[10, 10, 0]}
+                        boxShadow={['0 0 10px -5px black', '0 0 10px -5px black', 'none']}
+                        pos={['absolute', 'absolute', 'relative']}
                         justifyContent={'center'}
                         w={['full', 'full', 'full', '70%']}
                         flexWrap={'wrap'}
-                        h={['55%', '50%', 700]}
-                        mt={5}
-                        columnGap={5}
-                        overflow={'clip auto'}>
+                        zIndex={[11, 11, 0]}
+                        h={['full', 'full', 700]}
+                        top={['97vh', '97vh', '0vh']}
+                        columnGap={5}>
 
                         {eventArray.length === 0 ?
                             <>
@@ -95,7 +138,7 @@ const Events = () => {
                                 <NotFound id='NotFound' />
                             </>
                             :
-                            eventArray.map(item => <Cards name={item}
+                            eventArray.map((item, i) => <Cards key={i} name={item}
                                 setEventArray={setEventArray}
                                 eventArray={eventArray} />)}
                     </Flex>
