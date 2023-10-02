@@ -91,7 +91,7 @@ nav {
     border-radius: 10px;
     width: 100%;
     background-color: rgb(255, 255, 255);
-    box-shadow: 0 0 20px -9px black;
+    box-shadow: 0 0 8px -5px black;
 }
 
 #card-event:hover {

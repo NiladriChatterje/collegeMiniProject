@@ -1,4 +1,4 @@
-import { Text, Box, Divider, Flex } from '@chakra-ui/react'
+import { Text, Box, Divider, Flex, Button } from '@chakra-ui/react'
 import React, { useContext, useEffect, useState } from 'react'
 import { Context } from '../../App'
 import { ReactComponent as EventBG } from '../../assets/EventBG.svg'
@@ -22,10 +22,10 @@ const Events = () => {
         var options = {
             series: [{
                 name: 'series1',
-                data: [31, 40, 28, 109]
+                data: [31, 40, 28, 45]
             }],
             chart: {
-                height: 350,
+                height: 200,
                 type: 'area'
             },
             dataLabels: {
@@ -69,7 +69,6 @@ const Events = () => {
     if (name)
         return (
             <Flex w={['90%', '90%', '70%']}
-                pos={'relative'}
                 alignItems={'center'}
                 justifyContent={['flex-start', 'flex-start', 'center']}
                 flexDir={'column'}
@@ -97,13 +96,13 @@ const Events = () => {
                     w={'full'}>
                     <Flex
                         gap={5}
-                        p={'2px 0 10px 0'}
+                        p={'2px 2px 10px 2px'}
                         overflow={'clip auto'}
                         maxH={'88vh'}
                         pos={['fixed', 'fixed', 'static']}
                         flexDir={'column'}
                         alignItems={['center', 'center', 'flex-start']}
-                        w={['85%', '80%', '35%']}>
+                        w={['90%', '80%', '30%']}>
                         <Box id={'LineChart'} className='charts' />
                         <Box id={'PieChart'} className='charts' />
 
@@ -117,6 +116,18 @@ const Events = () => {
                             w={'full'} h={['max-content', 'max-content', 'max-content', 60]}>
                             Total Expenses : $4500
                         </Box>
+                        <Flex borderRadius={10}
+                            p={5}
+                            boxShadow={'0 0 25px -18px black'}
+                            bg={'whiteAlpha.900'}
+                            textAlign={'left'}
+                            bgImg={'linear-gradient(to right,#37d5d6,#36096D)'}
+                            w={'full'} h={['max-content', 'max-content', 'max-content', 60]}>
+                            <Box display={'inline-block'}>
+                                <Text color={'white'}>Budget : $4500</Text>
+                                <Button mt={10} bgColor={'white'}>Set Budget</Button>
+                            </Box>
+                        </Flex>
                     </Flex>
                     <Flex
                         backdropFilter={['blur(10px)', 'blur(10px)', 'blur(0px)']}
