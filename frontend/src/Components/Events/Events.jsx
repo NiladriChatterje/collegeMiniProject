@@ -1,9 +1,10 @@
-import { Text, Box, Divider, Flex, Button } from '@chakra-ui/react'
+import { Text, Box, Divider, Flex, Button, Image } from '@chakra-ui/react'
 import React, { useContext, useEffect, useState } from 'react'
 import { Context } from '../../App'
 import { ReactComponent as EventBG } from '../../assets/EventBG.svg'
 import { AiOutlinePlusSquare } from 'react-icons/ai';
 import Cards from './Cards';
+import ExpenseIMG from '../../assets/ExpenseIMG.svg'
 import ApexCharts from 'apexcharts'
 import { ReactComponent as NotFound } from '../../assets/NotFound.svg'
 import EventModal from './EventModal';
@@ -12,6 +13,8 @@ import { Navigate } from 'react-router-dom'
 const Events = () => {
     const [eventArray, setEventArray] = useState(() => JSON.parse(localStorage.getItem('events')) || []);
     const [modalToggle, setModalToggle] = useState(() => false)
+    const [budget, setBudget] = useState(() => 4500);
+    const [totalExpense, setTotalExpense] = useState(() => 3900)
     const { name } = useContext(Context);
 
     useEffect(() => {
@@ -25,7 +28,7 @@ const Events = () => {
                 data: [31, 40, 28, 45]
             }],
             chart: {
-                height: 200,
+                height: 180,
                 type: 'area'
             },
             dataLabels: {
@@ -98,13 +101,13 @@ const Events = () => {
                         gap={5}
                         p={'2px 2px 10px 2px'}
                         overflow={'clip auto'}
-                        maxH={'88vh'}
+                        maxH={['88vh']}
                         pos={['fixed', 'fixed', 'static']}
                         flexDir={'column'}
                         alignItems={['center', 'center', 'flex-start']}
                         w={['90%', '80%', '30%']}>
                         <Box id={'LineChart'} className='charts' />
-                        <Box id={'PieChart'} className='charts' />
+                        <Box id={'PieChart'} h={200} className='charts' />
 
                         <Box borderRadius={10}
                             p={5}
@@ -114,32 +117,35 @@ const Events = () => {
                             color={'white'}
                             bgImg={'linear-gradient(to right,#37d5d6,#36096D)'}
                             w={'full'} h={['max-content', 'max-content', 'max-content', 60]}>
-                            Total Expenses : $4500
+                            Total Expenses : ₹{totalExpense}
                         </Box>
                         <Flex borderRadius={10}
                             p={5}
+                            columnGap={2}
                             boxShadow={'0 0 25px -18px black'}
                             bg={'whiteAlpha.900'}
                             textAlign={'left'}
                             bgImg={'linear-gradient(to right,#37d5d6,#36096D)'}
                             w={'full'} h={['max-content', 'max-content', 'max-content', 60]}>
                             <Box display={'inline-block'}>
-                                <Text color={'white'}>Budget : $4500</Text>
-                                <Button mt={10} bgColor={'white'}>Set Budget</Button>
+                                <Text color={'white'}>Budget : ₹{budget}</Text>
+                                <Button w={'full'} mt={10} bgColor={'white'}>Set Budget</Button>
                             </Box>
+                            <Image src={ExpenseIMG} objectFit={'contain'} w={'50%'} />
                         </Flex>
                     </Flex>
                     <Flex
                         backdropFilter={['blur(10px)', 'blur(10px)', 'blur(0px)']}
                         borderRadius={10}
                         pt={[10, 10, 0]}
+                        pb={[10, 10, 0]}
                         boxShadow={['0 0 10px -5px black', '0 0 10px -5px black', 'none']}
                         pos={['absolute', 'absolute', 'relative']}
                         justifyContent={'center'}
                         w={['full', 'full', 'full', '70%']}
                         flexWrap={'wrap'}
                         zIndex={[11, 11, 0]}
-                        h={['full', 'full', 700]}
+                        h={['max-content', 'full', 700]}
                         top={['97vh', '97vh', '0vh']}
                         columnGap={5}>
 
