@@ -23,7 +23,7 @@ import RecordAdderModal from './RecordAdderModal';
 
 const Expense = () => {
     const { name } = useContext(Context);
-    const [recordAdder, setRecordAdder] = useState(() => true)
+    const [recordAdder, setRecordAdder] = useState(() => false)
     const [eventDetailsArray, setEventDetailsArray] = useState([
         {
             timestamp: new Date().toLocaleString(),

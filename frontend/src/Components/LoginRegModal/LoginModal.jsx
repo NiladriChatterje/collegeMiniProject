@@ -84,10 +84,7 @@ const LoginModal = ({ setName }) => {
                         </Button>
                     </Flex>
 
-                </ModalWrapper>
-
-
-            }
+                </ModalWrapper>}
         </>
     )
 }

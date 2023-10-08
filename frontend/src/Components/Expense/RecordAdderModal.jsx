@@ -14,9 +14,13 @@ const RecordAdderModal = ({ setRecordAdder }) => {
             bgColor={'blackAlpha.900'}
             justifyContent={'center'}
             alignItems={'center'}>
-            <FormControl bg={'white'}>
+            <FormControl bg={'white'} w={'50%'}>
                 <FormLabel>Date & Time</FormLabel>
-                <Input type='datetime-local' />
+                <Input type='datetime-local' required />
+                <FormLabel>Description</FormLabel>
+                <Input type='text' required />
+                <FormLabel>Amount</FormLabel>
+                <Input type='number' required />
                 <Button onClick={() => setRecordAdder(false)}>Close</Button>
             </FormControl>
         </Flex>

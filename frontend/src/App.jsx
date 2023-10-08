@@ -1,10 +1,12 @@
 import './App.css';
+import React from 'react'
 import Profile from './assets/Profile.svg';
 import { Flex, Image } from '@chakra-ui/react';
 import { Login, Expense, Event } from './Components/index';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { createContext, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
+import axios from 'axios';
 
 export const Context = createContext();
 
@@ -12,7 +14,17 @@ function App() {
   const navigate = useNavigate();
   const [name, setName] = useState('');
 
-
+  async function test() {
+    const { data } = await axios.post('http://localhost:8000/index.php', JSON.stringify({
+      name: "Lungi",
+      age: 14
+    })
+    );
+    console.log(JSON.parse(data))
+  }
+  React.useEffect(() => {
+    test();
+  });
   return (
     <Context.Provider value={{ name, setName }} >
       <Toaster />

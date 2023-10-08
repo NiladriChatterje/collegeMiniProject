@@ -17,6 +17,11 @@ const Events = () => {
     const [totalExpense, setTotalExpense] = useState(() => 3900)
     const { name } = useContext(Context);
 
+    async function getAllData() {
+        const { data } = await axios.get('http://localhost:8000/getData.php');
+        console.log(data)
+    }
+
     useEffect(() => {
         localStorage.setItem('events', JSON.stringify(eventArray));
     }, [eventArray]);
@@ -55,8 +60,8 @@ const Events = () => {
             chart: {
                 type: 'pie'
             },
-            series: [44, 45, 55, 5, 55, 41, 17, 15],
-
+            series: [1, 5],
+            labels: ['Restaurant', 'Transport']
         };
 
         const chart = new ApexCharts(document.querySelector("#PieChart"), options);

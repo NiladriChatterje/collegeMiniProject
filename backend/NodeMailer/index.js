@@ -22,7 +22,7 @@ function sendEmail({ recipient, confirmation }) {
             service: 'gmail',
             auth: {
                 user: 'ecartxvstore@gmail.com',
-                pass: process.env.CONFIRMATION
+                pass: 'ytmschqgaiyncsxn'
             }
         });
 
