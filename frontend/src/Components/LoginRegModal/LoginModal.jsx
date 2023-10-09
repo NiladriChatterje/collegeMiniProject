@@ -15,21 +15,39 @@ const LoginModal = ({ setName }) => {
     const passwordRef = useRef();
 
 
+    async function isSuccessFromDatabase() {
+        try {
+
+            const { data } = await axios.post('https://localhost:8000/credenCheck.php',
+                JSON.stringify({ email: usernameRef.current.value, password: passwordRef.current.value }));
+            //setName(data)
+            return data ? true : false;
+        } catch (e) {
+
+        }
+
+
+        return false;
+    }
 
     async function credentialLogin(e) {
         e.preventDefault();
         if (!(usernameRef.current.value && passwordRef.current.value)) {
             toast('Please Fill the fields'); return;
         }
-        let OTP = Math.trunc((Math.random() * 1000000));
-        setValidate(true);
-        /*await axios.post('http://localhost:5000/send_email', {
-            recipient: usernameRef.current.value,
-            confirmation: OTP
-        });*/
-        toast('OTP sent')
-        setOTP(OTP);
-        setName(usernameRef.current.value)
+
+        if (isSuccessFromDatabase()) {
+            let OTP = Math.trunc((Math.random() * 1000000));
+            setValidate(true);
+            /*await axios.post('http://localhost:5000/send_email', {
+                recipient: usernameRef.current.value,
+                confirmation: OTP
+            });*/
+            toast('OTP sent')
+            setOTP(OTP);
+            setName(usernameRef.current.value)
+        }
+
     }
 
 

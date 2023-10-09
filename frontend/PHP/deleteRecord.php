@@ -15,15 +15,10 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 $var1 = $conn->query("
-SELECT 
-SUM(amount) FROM user_event 
-WHERE user_id=".$_POST['id']."
-GROUP BY event_status;
-");
-
-$var2 = $conn->query("
-SELECT SUM(amount) FROM user_event WHERE user_id=".$_POST['id']." GROUP BY MONTH(timestamp);
-");
+DELETE FROM user_event 
+WHERE timestamp = ".$_POST['time']."; 
+AND user_id=".$_POST['id']."
+AND event_status=".$_POST['event'].";");
 
 
 $conn->close();

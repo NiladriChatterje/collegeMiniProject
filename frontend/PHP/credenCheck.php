@@ -1,6 +1,6 @@
 <?php
 header('Access-Control-Allow-Origin: http://localhost:5173');
-header('Content-type: application/json;charset=utf-8');
+header('Content-type: text/html;charset=utf-8');
 
 
 $servername = "localhost";
@@ -10,20 +10,15 @@ $password = "";
 // Create connection
 $conn = new mysqli($servername, $username, $password);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 $var1 = $conn->query("
 SELECT 
-SUM(amount) FROM user_event 
-WHERE user_id=".$_POST['id']."
-GROUP BY event_status;
-");
+user_name FROM user
+WHERE user_email=".$_POST['email']."
+AND user_psw=".$_POST['psw'].";");
 
-$var2 = $conn->query("
-SELECT SUM(amount) FROM user_event WHERE user_id=".$_POST['id']." GROUP BY MONTH(timestamp);
-");
-
+echo $var1;
 
 $conn->close();

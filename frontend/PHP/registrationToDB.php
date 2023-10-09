@@ -15,15 +15,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 $var1 = $conn->query("
-SELECT 
-SUM(amount) FROM user_event 
-WHERE user_id=".$_POST['id']."
-GROUP BY event_status;
-");
-
-$var2 = $conn->query("
-SELECT SUM(amount) FROM user_event WHERE user_id=".$_POST['id']." GROUP BY MONTH(timestamp);
-");
+INSERT INTO user VALUES
+(".$_POST['user_id'].",".$_POST['user_name'].",".$_POST['user_email'].");");
 
 
 $conn->close();

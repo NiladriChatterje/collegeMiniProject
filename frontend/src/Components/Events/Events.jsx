@@ -12,7 +12,8 @@ import { Navigate } from 'react-router-dom'
 
 const Events = () => {
     const [eventArray, setEventArray] = useState(() => JSON.parse(localStorage.getItem('events')) || []);
-    const [modalToggle, setModalToggle] = useState(() => false)
+    const [modalToggle, setModalToggle] = useState(() => false);
+
     const [budget, setBudget] = useState(() => 4500);
     const [totalExpense, setTotalExpense] = useState(() => 3900)
     const { name } = useContext(Context);
@@ -43,8 +44,8 @@ const Events = () => {
                 curve: 'smooth'
             },
             xaxis: {
-                type: 'datetime',
-                categories: ["2018-09-19T01:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z"]
+                type: 'string',
+                categories: ["JAN", "FEB", "MAR", "APR"]
             },
             tooltip: {
                 x: {

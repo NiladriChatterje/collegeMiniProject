@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
     Table,
     Thead,
@@ -86,20 +86,25 @@ const Expense = () => {
 
     ]);
     const { nameId } = useParams();
-
+    const timestampRecordRef = useRef([]);
     useEffect(() => {
         toast(nameId);
     }, []);
 
     async function deleteRecord(e, index) {
         setEventDetailsArray(eventDetailsArray.filter((_, i) => i !== index))
-        console.log()
+        const timestamp = timestampRecordRef.current[index].innerText;
+        const date = new Date(timestamp)
+        console.log(date.toLocaleDateString());
     }
 
     if (name && nameId)
         return (
             <>
-                {recordAdder && <RecordAdderModal setRecordAdder={setRecordAdder} />}
+                {recordAdder && <RecordAdderModal
+                    eventDetailsArray={eventDetailsArray}
+                    setEventDetailsArray={setEventDetailsArray}
+                    setRecordAdder={setRecordAdder} />}
                 <Image src={ExpenseBG}
                     pos={'fixed'} zIndex={-2} opacity={0.2} transform={['scale(1)', 'scale(1)', 'scale(0.5)']} />
                 <Text
@@ -127,56 +132,58 @@ const Expense = () => {
                     alignItems={'center'}
                     overflow={'clip auto'}
                 >
-                    <Table
-                        fontSize={12}
-                        w={['100%', '100%', '70%']}
-                        mt={5}>
-                        <Thead>
-                            <Tr
-                                w={'full'}
-                                bgColor={'whiteAlpha.900'}
-                                borderRadius={10}
-                            >
-                                <Th>TimeStamp</Th>
-                                <Th>Description</Th>
-                                <Th>Amount</Th>
-                            </Tr>
-                        </Thead>
+                    <Flex justifyContent={'center'} maxH={'80%'}
+                        w={['95%', '95%', '70%']}
+                        overflow={'clip auto'}>
 
-                        <Tbody>
-                            {eventDetailsArray?.map(
-                                (item, i) => (
-                                    <Tr
-                                        className='expenseRow'
-                                        key={i}
-                                        mt={15}
-                                        borderRadius={10}
-                                    >
-                                        <Td>{item?.timestamp}</Td>
-                                        <Td>{item?.description.length < 25 ?
-                                            item?.description : item?.description.slice(0, 25)}</Td>
-                                        <Td display={'flex'}
-                                            justifyContent={'space-between'}
+                        <Table
+                            fontSize={12}
+                            w={'100%'}
+                            mt={5}>
+                            <Thead>
+                                <Tr
+                                    w={'full'}
+                                    bgColor={'whiteAlpha.900'}
+                                    borderRadius={10}
+                                >
+                                    <Th>TimeStamp</Th>
+                                    <Th>Description</Th>
+                                    <Th>Amount</Th>
+                                </Tr>
+                            </Thead>
+
+                            <Tbody>
+                                {eventDetailsArray?.map(
+                                    (item, i) => (
+                                        <Tr
+                                            className='expenseRow'
+                                            key={i}
+                                            mt={15}
+                                            borderRadius={10}
                                         >
-                                            <Text>{item?.amount}</Text>
-                                            <MdDeleteForever className='delicon'
-                                                onClick={(e) => deleteRecord(e, i)} />
-                                        </Td>
-                                    </Tr>
+                                            <Td ref={el => timestampRecordRef.current[i] = el}>{item?.timestamp}</Td>
+                                            <Td>{item?.description.length < 25 ?
+                                                item?.description : item?.description.slice(0, 25)}</Td>
+                                            <Td display={'flex'}
+                                                justifyContent={'space-between'}
+                                            >
+                                                <Text>{item?.amount}</Text>
+                                                <MdDeleteForever className='delicon'
+                                                    onClick={(e) => deleteRecord(e, i)} />
+                                            </Td>
+                                        </Tr>
+                                    )
                                 )
-                            )
-                            }
-                        </Tbody>
-                        <TableCaption
-                        >
-                            <AiFillPlusCircle
-                                size={45}
-                                style={{ marginBottom: 25 }}
-                                cursor={'pointer'}
-                                onClick={() => setRecordAdder(true)}
-                            />
-                        </TableCaption>
-                    </Table>
+                                }
+                            </Tbody>
+                        </Table>
+                    </Flex>
+                    <AiFillPlusCircle
+                        size={45}
+                        style={{ margin: '10px 0' }}
+                        cursor={'pointer'}
+                        onClick={() => setRecordAdder(true)}
+                    />
                 </Flex>
             </>
         );

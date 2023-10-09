@@ -20,6 +20,7 @@ const Cards = ({ name, eventArray, setEventArray }) => {
             onMouseEnter={() => setDeleteVisible(true)}
             onMouseLeave={() => setDeleteVisible(false)}
             onClick={() => navigate(`/expense/${name}`)}
+            onTouchStart={() => navigate(`/expense/${name}`)}
             fontWeight={900}
             pos={'relative'}
             id={'card-event'}
