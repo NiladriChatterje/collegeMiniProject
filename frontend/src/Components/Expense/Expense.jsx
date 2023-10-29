@@ -7,7 +7,6 @@ import {
     Th,
     Td,
     TableCaption,
-    Box,
     Divider,
     Flex,
     Text,
@@ -15,93 +14,50 @@ import {
 } from '@chakra-ui/react'
 import ExpenseBG from '../../assets/ExpenseBG.svg'
 import { Context } from '../../App';
-import { toast } from 'react-hot-toast'
 import { Navigate, useParams } from 'react-router-dom';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import { MdDeleteForever } from 'react-icons/md'
 import RecordAdderModal from './RecordAdderModal';
+import axios from 'axios';
 
 const Expense = () => {
-    const { name } = useContext(Context);
+    const { name, userID } = useContext(Context);
     const [recordAdder, setRecordAdder] = useState(() => false)
-    const [eventDetailsArray, setEventDetailsArray] = useState([
-        {
-            timestamp: new Date().toLocaleString(),
-
-            description: 'China town, 32A street',
-            amount: 650
-        },
-        {
-            timestamp: new Date().toLocaleString(),
-
-            description: 'China town, 32A street',
-            amount: 650
-        },
-        {
-            timestamp: new Date().toLocaleString(),
-
-            description: 'China town, 32A street',
-            amount: 650
-        },
-        {
-            timestamp: new Date().toLocaleString(),
-
-            description: 'China town, 32A street',
-            amount: 650
-        },
-        {
-            timestamp: new Date().toLocaleString(),
-
-            description: 'China town, 32A street',
-            amount: 650
-        },
-
-
-        {
-            timestamp: new Date().toLocaleString(),
-
-            description: 'Hatibagan,Aminia',
-            amount: 650
-        },
-        {
-            timestamp: new Date().toLocaleString(),
-            description: 'China town, 32A street',
-            amount: 650
-        },
-        {
-            timestamp: new Date().toLocaleTimeString(),
-
-            description: 'China town, 32A street',
-            amount: 650
-        },
-
-
-        {
-            timestamp: new Date().toLocaleString(),
-
-            description: 'Rajarhat Chowmatha, 99',
-            amount: 650
-        },
-
-
-    ]);
+    const [eventDetailsArray, setEventDetailsArray] = useState(() => []);
     const { nameId } = useParams();
     const timestampRecordRef = useRef([]);
+
+    async function getDetailsOfAnEvent(nameId, userID) {
+        const { data } = await axios.post("http://localhost:8000/getRecordsOfAnEvent.php", JSON.stringify({ nameId, userID }))
+        console.log(data);
+        const arr = [];
+        for (let i of data)
+            arr.push({ timestamp: new Date(i?.timestamp).toLocaleString(), description: i?.purpose, amount: i?.amount })
+        setEventDetailsArray([...eventDetailsArray, ...arr])
+    }
     useEffect(() => {
-        toast(nameId);
+        getDetailsOfAnEvent(nameId, userID)
     }, []);
 
-    async function deleteRecord(e, index) {
+
+    async function deleteRecord(index) {
         setEventDetailsArray(eventDetailsArray.filter((_, i) => i !== index))
-        const timestamp = timestampRecordRef.current[index].innerText;
-        const date = new Date(timestamp)
-        console.log(date.toLocaleDateString());
+        const date = new Date(timestampRecordRef.current[index].innerText)
+        const modifiedTimeStamp = date.toISOString().split('T');
+        modifiedTimeStamp[1] = modifiedTimeStamp[1].split(".")[0];
+        console.log(modifiedTimeStamp.join(" "));
+        const { data } = await axios.post("http://localhost:8000/deleteRecord.php", JSON.stringify(
+            { userID: parseInt(userID), timestamp: modifiedTimeStamp.join(" ") }
+        ));
+        console.log(data);
     }
 
     if (name && nameId)
         return (
             <>
                 {recordAdder && <RecordAdderModal
+                    nameId={nameId}
+                    userID={userID}
                     eventDetailsArray={eventDetailsArray}
                     setEventDetailsArray={setEventDetailsArray}
                     setRecordAdder={setRecordAdder} />}
@@ -162,14 +118,14 @@ const Expense = () => {
                                             borderRadius={10}
                                         >
                                             <Td ref={el => timestampRecordRef.current[i] = el}>{item?.timestamp}</Td>
-                                            <Td>{item?.description.length < 25 ?
+                                            <Td>{item?.description?.length < 25 ?
                                                 item?.description : item?.description.slice(0, 25)}</Td>
                                             <Td display={'flex'}
                                                 justifyContent={'space-between'}
                                             >
                                                 <Text>{item?.amount}</Text>
                                                 <MdDeleteForever className='delicon'
-                                                    onClick={(e) => deleteRecord(e, i)} />
+                                                    onClick={(e) => deleteRecord(i)} />
                                             </Td>
                                         </Tr>
                                     )

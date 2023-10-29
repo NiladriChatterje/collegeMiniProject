@@ -17,17 +17,14 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $json = file_get_contents('php://input');
     $data = json_decode($json);
-    $sql_query1 = "SELECT user_id,user_name FROM user where user_email=" . "'$data->email'";
 
-    $sql_query = "INSERT INTO user values (DEFAULT,'$data->name','$data->email','$data->password', $data->tel)";
+    $var1 = "SELECT timestamp,purpose,amount FROM user_event WHERE user_id=$data->userID AND event_status='$data->nameId'";
 
-    $res = $conn->prepare($sql_query1);
+    $res = $conn->prepare($var1);
+
     $res->execute();
-    if (empty($res->fetchAll())) {
-        $res = $conn->prepare($sql_query);
-        $res->execute();
-        echo json_encode($res);
-    } else throw new Exception('user already exist');
-} catch (Exception $e) {
-    echo false;
+
+    echo json_encode($res->fetchAll());
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
 }

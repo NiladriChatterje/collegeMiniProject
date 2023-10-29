@@ -1,22 +1,29 @@
 import { Button, Flex, FormControl, FormLabel, Input } from '@chakra-ui/react'
-import React, { useRef } from 'react'
-import { toast } from 'react-hot-toast';
-import { IoMdCloseCircle } from 'react-icons/io'
+import React, { useRef } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useParams } from 'react-router-dom';
 
-const RecordAdderModal = ({ setRecordAdder, setEventDetailsArray, eventDetailsArray }) => {
+const RecordAdderModal = ({ setRecordAdder, userID, setEventDetailsArray, eventDetailsArray }) => {
+    const { nameId } = useParams();
 
-    const timestampRef = useRef();
-    const descRef = useRef();
-    const amtRef = useRef();
+    const InputDataRef = useRef([]);
+    async function addRecordOfEvent() {
+        const modifiedTimeStamp = InputDataRef.current[0].value.split('T');
+        modifiedTimeStamp[1] = modifiedTimeStamp[1] + ":00";
 
+        const { data } = await axios.post('http://localhost:8000/addDataToEvent.php', JSON.stringify({
+            timestamp: modifiedTimeStamp.join(" "),
+            description: InputDataRef.current[1].value,
+            amount: parseFloat(InputDataRef.current[2].value),
+            userID: parseInt(userID),
+            nameId
+        }));
+        if (data)
+            setEventDetailsArray([...eventDetailsArray, { timestamp: new Date(modifiedTimeStamp.join(" ")).toLocaleString(), description: InputDataRef.current[1].value, amount: parseFloat(InputDataRef.current[2].value) }])
 
-    async function addTupleOfAnEvent() {
-        if (!(timestampRef.current.value && descRef.current.value && amtRef.current.value)) {
-            toast('All Fields are not filled yet!');
-            return;
-        }
-        setEventDetailsArray([...eventDetailsArray, { timestamp: timestampRef.current.value, description: descRef.current.value, amount: amtRef.current.value }])
-        toast("Record Added")
+        toast(data ? "successfully added!" : "Ran into some issue will adding record");
+        setRecordAdder(false);
     }
 
     return (
@@ -30,28 +37,15 @@ const RecordAdderModal = ({ setRecordAdder, setEventDetailsArray, eventDetailsAr
             bgColor={'blackAlpha.900'}
             justifyContent={'center'}
             alignItems={'center'}>
-            <FormControl
-                bg={'white'} w={['85%', '82%', '40%']}
-                rounded={10} p={5}>
-                <Flex alignItems={'center'}
-                    justifyContent={'space-between'}>
-                    <FormLabel>Date & Time</FormLabel>
-                    <IoMdCloseCircle
-                        cursor={'pointer'}
-                        onClick={() => setRecordAdder(false)} />
-                </Flex>
-                <Input type='datetime-local' ref={timestampRef} required />
+            <FormControl bg={'white'} w={'50%'}>
+                <FormLabel>Date & Time</FormLabel>
+                <Input type='datetime-local' max={new Date().toISOString().split('.')[0]} required ref={el => InputDataRef.current.push(el)} />
                 <FormLabel>Description</FormLabel>
-                <Input type='text' ref={descRef} required />
+                <Input type='text' required ref={el => InputDataRef.current.push(el)} />
                 <FormLabel>Amount</FormLabel>
-                <Input ref={amtRef} type='number' required />
-                <Button
-                    onClick={addTupleOfAnEvent}
-                    mt={5}
-                    color={'white'}
-                    fontWeight={900}
-                    bg={'teal.600'}
-                >ADD</Button>
+                <Input type='number' required ref={el => InputDataRef.current.push(el)} />
+                <Button onClick={() => setRecordAdder(false)}>Close</Button>
+                <Button onClick={addRecordOfEvent}>Add</Button>
             </FormControl>
         </Flex>
     )

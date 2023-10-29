@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [toggleLoginReg, setToggleLoginReg] = React.useState(true);
-    const { setName, name } = React.useContext(Context);
+    const { setName, name, setUserID } = React.useContext(Context);
     const [validate, setValidate] = React.useState(false);
     const navigate = useNavigate();
 
@@ -18,6 +18,7 @@ const Login = () => {
         profilePic.style.width = '200px';
         profilePic.style.height = profilePic.style.width;
         profilePic.style.position = 'static';
+
         if (name)
             navigate('/events');
         return () => {
@@ -33,7 +34,7 @@ const Login = () => {
         <>
             <Image src={window.innerWidth > 1200 ? BG : BG2} id={'BG'} />
             {toggleLoginReg ?
-                <LoginModal setName={setName} validate={validate} setValidate={setValidate} /> :
+                <LoginModal setName={setName} setUserID={setUserID} /> :
                 <RegisterModal setToggleLoginReg={setToggleLoginReg}
                     validate={validate} setValidate={setValidate} />}
             <Flex

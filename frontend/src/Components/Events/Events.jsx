@@ -9,29 +9,54 @@ import ApexCharts from 'apexcharts'
 import { ReactComponent as NotFound } from '../../assets/NotFound.svg'
 import EventModal from './EventModal';
 import { Navigate } from 'react-router-dom'
+import axios from 'axios';
 
 const Events = () => {
-    const [eventArray, setEventArray] = useState(() => JSON.parse(localStorage.getItem('events')) || []);
+    const [eventArray, setEventArray] = useState(() => []);
+    const [DatasPie, setDatasPie] = useState(() => []);
+    const [AreaData, setAreaData] = useState(() => []);
+    const [AreaLabel, setAreaLabel] = useState(() => []);
+    const [notifier, setNotifier] = useState(() => true);
+
     const [modalToggle, setModalToggle] = useState(() => false);
 
     const [budget, setBudget] = useState(() => 4500);
     const [totalExpense, setTotalExpense] = useState(() => 3900)
-    const { name } = useContext(Context);
+    const { name, userID } = useContext(Context);
 
     async function getAllData() {
-        const { data } = await axios.get('http://localhost:8000/getData.php');
-        console.log(data)
+        const { data } = await axios.post('http://localhost:8000/getData.php', JSON.stringify({ userID }));
+        console.log(data);
+
+        const arr1Pie = [], arr2Pie = [];
+        for (let i of data[0]) {
+            arr1Pie.push(i?.event_status);
+            arr2Pie.push(i?.sum);
+        }
+        const arr1Area = [], arr2Area = [];
+        for (let i of data[1]) {
+            arr1Area.push(i?.month);
+            arr2Area.push(i?.sum);
+        }
+        setAreaLabel(arr1Area);
+        setAreaData(arr2Area)
+        setEventArray(arr1Pie);
+        setDatasPie(arr2Pie);
+        setTotalExpense(data[2]?.sum);
     }
 
     useEffect(() => {
-        localStorage.setItem('events', JSON.stringify(eventArray));
-    }, [eventArray]);
+        getAllData();
+    }, [notifier]);
 
-    function renderLineChart() {
+
+
+    useEffect(() => {
+
         var options = {
             series: [{
                 name: 'series1',
-                data: [31, 40, 28, 45]
+                data: AreaData
             }],
             chart: {
                 height: 180,
@@ -45,35 +70,33 @@ const Events = () => {
             },
             xaxis: {
                 type: 'string',
-                categories: ["JAN", "FEB", "MAR", "APR"]
+                categories: AreaLabel
             },
-            tooltip: {
-                x: {
-                    format: 'dd/MM/yy'
-                },
-            },
+
         };
         var chart = new ApexCharts(document.querySelector("#LineChart"), options);
         chart.render();
-    }
-    function renderPieChart() {
-        const options = {
+
+
+        const options1 = {
             chart: {
                 type: 'pie'
             },
-            series: [1, 5],
-            labels: ['Restaurant', 'Transport']
+            series: DatasPie,
+            labels: eventArray
         };
 
-        const chart = new ApexCharts(document.querySelector("#PieChart"), options);
-        chart.render();
-    }
+        const Piechart = new ApexCharts(document.querySelector("#PieChart"), options1);
+        Piechart.render();
 
-    useEffect(() => {
-        renderLineChart();
-        renderPieChart();
+        return () => {
+            if (Piechart && chart) {
+                Piechart.destroy();
+                chart.destroy();
+            }
+        }
+    }, [eventArray]);
 
-    }, []);
 
     if (name)
         return (
@@ -122,7 +145,7 @@ const Events = () => {
                             textAlign={'center'}
                             color={'white'}
                             bgImg={'linear-gradient(to right,#37d5d6,#36096D)'}
-                            w={'full'} h={['max-content', 'max-content', 'max-content', 60]}>
+                            w={'full'} h={['max-content', 'max-content', 'max-content']}>
                             Total Expenses : ₹{totalExpense}
                         </Box>
                         <Flex borderRadius={10}
@@ -161,9 +184,11 @@ const Events = () => {
                                 <NotFound id='NotFound' />
                             </>
                             :
-                            eventArray.map((item, i) => <Cards key={i} name={item}
-                                setEventArray={setEventArray}
-                                eventArray={eventArray} />)}
+                            eventArray.map((item, i) => <Cards
+                                setNotifier={setNotifier}
+                                userID={userID}
+                                key={i} name={item}
+                            />)}
                     </Flex>
                 </Flex>
             </Flex>

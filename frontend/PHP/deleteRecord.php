@@ -1,24 +1,30 @@
 <?php
 header('Access-Control-Allow-Origin: http://localhost:5173');
-header('Content-type: application/json;charset=utf-8');
+header('Content-Type: application/json; charset=utf-8');
 
 
-$servername = "localhost";
-$username = "root";
-$password = "";
+$host     = '127.0.0.1';
+$db       = 'expense_tracker';
+$user     = 'root';
+$password = '';
+$port     = 3306;
+
 
 // Create connection
-$conn = new mysqli($servername, $username, $password);
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$db", $user, $password);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $json = file_get_contents('php://input');
+    $data = json_decode($json);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    $var1 = "DELETE FROM user_event WHERE user_id=$data->userID AND timestamp='$data->status';";
+
+    $res = $conn->prepare($var1);
+
+    $res->execute();
+    if (isset($res))
+        echo "true";
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
 }
-$var1 = $conn->query("
-DELETE FROM user_event 
-WHERE timestamp = ".$_POST['time']."; 
-AND user_id=".$_POST['id']."
-AND event_status=".$_POST['event'].";");
-
-
-$conn->close();

@@ -2,6 +2,7 @@ import { Button, FormLabel, Image, Input } from '@chakra-ui/react'
 import Register from '../../assets/Register.svg'
 import { toast } from 'react-hot-toast'
 import React, { useRef } from 'react'
+import axios from 'axios'
 
 const Registermodal = ({ setToggleLoginReg, validate, setValidate }) => {
     const [confirmation, setConfirmation] = React.useState(false);
@@ -10,14 +11,24 @@ const Registermodal = ({ setToggleLoginReg, validate, setValidate }) => {
     const telRef = useRef();
     const passwordRef = useRef();
 
-    function registrationUser(e) {
+    async function registrationUser(e) {
         e.preventDefault();
         setConfirmation(true);
-        setTimeout(() => { setConfirmation(false); setToggleLoginReg(true) }, 2000)
+        setTimeout(() => { setConfirmation(false); }, 2000);
         if (!(nameRef.current.value && emailRef.current.value && telRef.current.value && passwordRef.current.value)) {
-            toast('Fill The required fields!!')
+            toast('Fill The required fields!!');
             return;
         }
+        const { data } = await axios.post('http://localhost:8000/registrationToDB.php',
+            JSON.stringify({
+                name: nameRef.current.value, email: emailRef.current.value
+                , tel: telRef.current.value, password: passwordRef.current.value
+            }));
+        console.log(data)
+
+        if (data == false) { toast.error('user already exist!'); return; }
+        if (data) toast.success('data successfully enrolled');
+        setToggleLoginReg(true);
     }
 
     return (

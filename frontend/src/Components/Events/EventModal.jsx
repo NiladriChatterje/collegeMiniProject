@@ -27,9 +27,9 @@ const EventModal = ({ setModalToggle, setEventArray, eventArray }) => {
                 justifyContent={'center'}
                 alignItems={'center'}
                 borderRadius={10}
-                flexDir={'column'}
+                flexDir={['column', 'column', 'row']}
                 position={'relative'}
-                w={['90%', '80%', 600]}
+                w={['90%', '80%', 700]}
                 h={[400, 500]}>
 
                 <AiFillCloseCircle
@@ -37,25 +37,18 @@ const EventModal = ({ setModalToggle, setEventArray, eventArray }) => {
                     style={{ position: 'absolute', right: 5, top: 5, zIndex: 2 }} size={30}
                     cursor={'pointer'} />
 
-                <Image src={Add2} alt=''
-                    w={'75%'}
-                    transform={['scale(1.5)', 'scale(1)']}
-                    pos={'relative'}
-                    objectFit={'contain'} />
-
                 <Flex w={['85%', '85%', '48%']}
                     justifyContent={'center'}
-                    bg={'whiteAlpha.900'}
+                    bg={'linear-gradient(103.2deg, rgb(53, 108, 128) 14.6%, rgb(57, 187, 231) 91.5%)'}
                     boxShadow={'0 0 10px -5px black'}
                     p={10}
                     flexDir={'column'}
                     gap={5}
-                    pos={'absolute'}
-                    zIndex={5}
+                    pos={'relative'}
                     borderRadius={10}
                 >
-                    <FormLabel>Event Name : </FormLabel>
-                    <Input type='text' ref={inputRef} required />
+                    <FormLabel color={'white'}>Event Name : </FormLabel>
+                    <Input type='text' ref={inputRef} bg={'white'} required />
                     <Button variant={'solid'} bgColor={'teal.600'}
                         fontWeight={900} color={'white'}
                         onClick={addEvent}
@@ -63,6 +56,12 @@ const EventModal = ({ setModalToggle, setEventArray, eventArray }) => {
                         ADD
                     </Button>
                 </Flex>
+                <Image src={Add2} alt=''
+                    w={'50%'}
+                    transform={['scale(1.5)', 'scale(1)']}
+                    pos={'relative'}
+                    objectFit={'contain'} />
+
             </Flex>
         </ModalWrapper>
     )

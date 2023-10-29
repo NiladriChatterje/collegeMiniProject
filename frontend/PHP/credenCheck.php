@@ -1,24 +1,29 @@
 <?php
-header('Access-Control-Allow-Origin: http://localhost:5173');
-header('Content-type: text/html;charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json; charset=utf-8');
 
+$host     = '127.0.0.1';
+$db       = 'expense_tracker';
+$user     = 'root';
+$password = '';
+$port     = 3306;
 
-$servername = "localhost";
-$username = "root";
-$password = "";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password);
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$db", $user, $password);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $json = file_get_contents('php://input');
+    $data = json_decode($json);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    $sql_query = "SELECT user_id,user_name FROM user where user_email=" . "'$data->email'" . " AND user_psw=" . "'$data->password'";
+
+    $res = $conn->prepare($sql_query);
+    $res->execute();
+    $res = $res->fetch(PDO::FETCH_ASSOC);
+
+    echo json_encode($res);
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
 }
-$var1 = $conn->query("
-SELECT 
-user_name FROM user
-WHERE user_email=".$_POST['email']."
-AND user_psw=".$_POST['psw'].";");
-
-echo $var1;
-
-$conn->close();

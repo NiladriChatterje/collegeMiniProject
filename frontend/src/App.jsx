@@ -13,20 +13,15 @@ export const Context = createContext();
 function App() {
   const navigate = useNavigate();
   const [name, setName] = useState('');
+  const [userID, setUserID] = useState(() => 0);
 
-  async function test() {
-    const { data } = await axios.post('http://localhost:8000/index.php', JSON.stringify({
-      name: "Lungi",
-      age: 14
-    })
-    );
-    console.log(JSON.parse(data))
+  async function destroySession() {
+    const { data } = axios.post('http://localhost:8000/destroySession.php');
+    console.log(data);
   }
-  React.useEffect(() => {
-    test();
-  });
+
   return (
-    <Context.Provider value={{ name, setName }} >
+    <Context.Provider value={{ name, setName, userID, setUserID }} >
       <Toaster />
       <Flex
         overflow={'clip auto'}
@@ -41,7 +36,7 @@ function App() {
           src={Profile}
           alt={'Profile Picture'}
           boxShadow={'0 -8px 10px -8px black'}
-          onClick={() => { navigate('/'); setName(''); }}
+          onClick={() => { destroySession(); navigate('/'); setName(''); }}
           w={'70px'}
           h={'70px'}
           bg={'whiteAlpha.400'}

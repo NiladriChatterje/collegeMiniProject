@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios'
 import ModalWrapper from '../ModalWrapper';
 
-const LoginModal = ({ setName }) => {
+const LoginModal = ({ setName, setUserID }) => {
     const [Validate, setValidate] = useState(false);
     const [OTP, setOTP] = useState(-1);
     const navigate = useNavigate();
@@ -17,16 +17,17 @@ const LoginModal = ({ setName }) => {
 
     async function isSuccessFromDatabase() {
         try {
-
-            const { data } = await axios.post('https://localhost:8000/credenCheck.php',
+            const { data } = await axios.post('http://localhost:8000/credenCheck.php',
                 JSON.stringify({ email: usernameRef.current.value, password: passwordRef.current.value }));
-            //setName(data)
-            return data ? true : false;
+            if (!data)
+                return false;
+
+            setName(data ? data?.user_name : usernameRef.current.value);
+            setUserID(data?.user_id || 0)
+            return true;
         } catch (e) {
 
         }
-
-
         return false;
     }
 
@@ -35,7 +36,6 @@ const LoginModal = ({ setName }) => {
         if (!(usernameRef.current.value && passwordRef.current.value)) {
             toast('Please Fill the fields'); return;
         }
-
         if (isSuccessFromDatabase()) {
             let OTP = Math.trunc((Math.random() * 1000000));
             setValidate(true);
@@ -45,8 +45,8 @@ const LoginModal = ({ setName }) => {
             });*/
             toast('OTP sent')
             setOTP(OTP);
-            setName(usernameRef.current.value)
         }
+        else toast.error('No records found or connection refused!!');
 
     }
 

@@ -3,17 +3,21 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import EventBG3D from '../Splines/EventBG3D'
 import { AiFillDelete } from 'react-icons/ai'
+import axios from 'axios'
 
-const Cards = ({ name, eventArray, setEventArray }) => {
+const Cards = ({ name, userID, setNotifier }) => {
     const navigate = useNavigate();
     const [deleteVisible, setDeleteVisible] = useState(false);
     const [val] = useMediaQuery('(max-width:1200px)');
 
-    function deleteEventFromArray(e) {
+    async function deleteEventFromArray(e) {
         e.stopPropagation();
-        setEventArray(eventArray.filter(item => item !== name))
+        const { data } = await axios.post('http://localhost:8000/deleteEvent.php',
+            JSON.stringify({ userID, status: name }));
+        console.log(data);
+        if (data == true)
+            setNotifier(prev => !prev)
     }
-
 
     return (
         <Flex mt={3}
