@@ -20,7 +20,7 @@ const RecordAdderModal = ({ setRecordAdder, userID, setEventDetailsArray, eventD
             nameId
         }));
         if (data)
-            setEventDetailsArray([...eventDetailsArray, { timestamp: new Date(modifiedTimeStamp.join(" ")).toLocaleString(), description: InputDataRef.current[1].value, amount: parseFloat(InputDataRef.current[2].value) }])
+            setEventDetailsArray([...eventDetailsArray, { timestamp: modifiedTimeStamp.join(" "), description: InputDataRef.current[1].value, amount: parseFloat(InputDataRef.current[2].value) }])
 
         toast(data ? "successfully added!" : "Ran into some issue will adding record");
         setRecordAdder(false);

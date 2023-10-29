@@ -6,7 +6,6 @@ import {
     Tr,
     Th,
     Td,
-    TableCaption,
     Divider,
     Flex,
     Text,
@@ -32,7 +31,7 @@ const Expense = () => {
         console.log(data);
         const arr = [];
         for (let i of data)
-            arr.push({ timestamp: new Date(i?.timestamp).toLocaleString(), description: i?.purpose, amount: i?.amount })
+            arr.push({ timestamp: i?.timestamp, description: i?.purpose, amount: i?.amount })
         setEventDetailsArray([...eventDetailsArray, ...arr])
     }
     useEffect(() => {
@@ -42,12 +41,12 @@ const Expense = () => {
 
     async function deleteRecord(index) {
         setEventDetailsArray(eventDetailsArray.filter((_, i) => i !== index))
-        const date = new Date(timestampRecordRef.current[index].innerText)
-        const modifiedTimeStamp = date.toISOString().split('T');
-        modifiedTimeStamp[1] = modifiedTimeStamp[1].split(".")[0];
-        console.log(modifiedTimeStamp.join(" "));
+        const date = Date.parse(timestampRecordRef.current[index].innerText)
+
+
+        console.log(date);
         const { data } = await axios.post("http://localhost:8000/deleteRecord.php", JSON.stringify(
-            { userID: parseInt(userID), timestamp: modifiedTimeStamp.join(" ") }
+            { userID: parseInt(userID), timestamp: timestampRecordRef.current[index].innerText }
         ));
         console.log(data);
     }

@@ -19,12 +19,12 @@ const LoginModal = ({ setName, setUserID }) => {
         try {
             const { data } = await axios.post('http://localhost:8000/credenCheck.php',
                 JSON.stringify({ email: usernameRef.current.value, password: passwordRef.current.value }));
-            if (!data)
-                return false;
-
-            setName(data ? data?.user_name : usernameRef.current.value);
-            setUserID(data?.user_id || 0)
-            return true;
+            console.log(data)
+            if (data) {
+                setName(data ? data?.user_name : usernameRef.current.value);
+                setUserID(data?.user_id || 0)
+                return true;
+            }
         } catch (e) {
 
         }
@@ -36,7 +36,8 @@ const LoginModal = ({ setName, setUserID }) => {
         if (!(usernameRef.current.value && passwordRef.current.value)) {
             toast('Please Fill the fields'); return;
         }
-        if (isSuccessFromDatabase()) {
+        const result = await isSuccessFromDatabase()
+        if (result) {
             let OTP = Math.trunc((Math.random() * 1000000));
             setValidate(true);
             /*await axios.post('http://localhost:5000/send_email', {

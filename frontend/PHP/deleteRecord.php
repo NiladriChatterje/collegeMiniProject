@@ -18,7 +18,7 @@ try {
     $json = file_get_contents('php://input');
     $data = json_decode($json);
 
-    $var1 = "DELETE FROM user_event WHERE user_id=$data->userID AND timestamp='$data->status';";
+    $var1 = "DELETE FROM user_event WHERE user_id=$data->userID AND timestamp='$data->timestamp';";
 
     $res = $conn->prepare($var1);
 

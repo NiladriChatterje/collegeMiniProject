@@ -17,13 +17,14 @@ try {
     $json = file_get_contents('php://input');
     $data = json_decode($json);
 
-    $sql_query = "SELECT user_id,user_name FROM user where user_email=" . "'$data->email'" . " AND user_psw=" . "'$data->password'";
+    $sql_query = "SELECT user_id,user_name FROM user where user_email='$data->email' AND user_psw='$data->password'";
 
     $res = $conn->prepare($sql_query);
     $res->execute();
     $res = $res->fetch(PDO::FETCH_ASSOC);
-
-    echo json_encode($res);
+    if (isset($res["user_id"]))
+        echo json_encode($res);
+    else echo "false";
 } catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
